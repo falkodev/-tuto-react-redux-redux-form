@@ -2,6 +2,8 @@
 
 Passons maintenant à la création des composants nécessaires à la gestion des élèves.
 
+## Tableau
+
 Le premier sera un composant d'affichage, un simple tableau affichant plusieurs fois un sous composant : les élèves. Puis un troisième composant permettra la création, la modification et la suppression d'un élève. Ce sera le plus complet et le plus complexe, introduisant l'usage de Redux-Form.
 
 Voici le composant affichant le tableau :
@@ -49,4 +51,41 @@ Pour ceux qui ne connaissent pas cette fonctionnalité ES6 : [http://putaindecod
 Puis dans une liste ul, on boucle sur la liste des élèves et on appelle le composant Student.
 
 Enfin, en bas, on affiche le composant StudentForm, qui affichera le formulaire d'ajout d'élève.
+
+
+
+## Elève
+
+```js
+import React from 'react';
+
+export default const Student = props => {
+
+  const { item, toggleForm, updateForm, deleteStudent } = props;
+
+  return (
+      <span>
+        <div class="container">
+            <div class="row">
+                {item.firstName + ' ' + item.lastName}&nbsp;
+                <input type="checkbox" id={"toggle" + item.id} className="toggle" />
+                <label htmlFor={"toggle" + item.id} className='btn btn-primary pull-right margin-bottom-5' onClick={()=>toggleForm(item.id)}>
+                    <span className="glyphicon glyphicon-pencil"></span>&nbsp;Editer
+                </label>
+                
+                { item.isVisible ? <StudentForm key={item.id}
+                       formKey={String(item.id)}
+                       initialValues={item} 
+                       saveForm={updateForm}
+                       deleteStudent={deleteStudent}
+                       /> : null 
+                }
+            </div>
+        </div>
+      </span>
+  );
+}
+```
+
+
 
