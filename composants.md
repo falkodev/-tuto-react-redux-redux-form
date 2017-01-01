@@ -14,32 +14,31 @@ export default const StudentsList = props => {
   const { students, toggleForm, updateForm, addStudent, deleteStudent } = props;
 
   return (
-    <div>
-        <div className="col-lg-12">
-        
-          <ul className="list-group">
-            {students.reducer.map(student => (
-              <li key={student.get("id")} className="list-group-item clearfix">
-                <Student item={student.toJS()} toggleForm={toggleForm} updateForm={updateForm} deleteStudent={deleteStudent}/>
-              </li>
-            ))}
-          </ul>
-          
-          <hr/>
-          
-          <label>Ajouter un élève</label>
-          <StudentForm key="new"
-           formKey="new"
-           saveForm={addStudent}
-           /> 
-           
-        </div>
+    <div className="col-lg-12">
+
+      <ul className="list-group">
+        {students.reducer.map(student => (
+          <li key={student.get("id")} className="list-group-item clearfix">
+            <Student item={student.toJS()} toggleForm={toggleForm} 
+              updateForm={updateForm} deleteStudent={deleteStudent}/>
+          </li>
+        ))}
+      </ul>
+
+      <hr/>
+
+      <label>Ajouter un élève</label>
+      <StudentForm key="new"
+       formKey="new"
+       saveForm={addStudent}
+       /> 
+
     </div>
   );
 }
 ```
 
-Les propriétés passées à notre composant sont "déstructurées" comme ceci : 
+Les propriétés passées à notre composant sont "déstructurées" comme ceci :
 
 ```js
 const { students, toggleForm, updateForm, addStudent, deleteStudent } = props;
@@ -50,6 +49,4 @@ Pour ceux qui ne connaissent pas cette fonctionnalité ES6 : [http://putaindecod
 Puis dans une liste ul, on boucle sur la liste des élèves et on appelle le composant Student.
 
 Enfin, en bas, on affiche le composant StudentForm, qui affichera le formulaire d'ajout d'élève.
-
-
 
