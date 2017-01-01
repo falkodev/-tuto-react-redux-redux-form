@@ -52,8 +52,6 @@ Puis dans une liste ul, on boucle sur la liste des élèves et on appelle le com
 
 Enfin, en bas, on affiche le composant StudentForm, qui affichera le formulaire d'ajout d'élève.
 
-
-
 ## Elève
 
 ```js
@@ -67,12 +65,13 @@ export default const Student = props => {
       <span>
         <div class="container">
             <div class="row">
+            
                 {item.firstName + ' ' + item.lastName}&nbsp;
                 <input type="checkbox" id={"toggle" + item.id} className="toggle" />
                 <label htmlFor={"toggle" + item.id} className='btn btn-primary pull-right margin-bottom-5' onClick={()=>toggleForm(item.id)}>
                     <span className="glyphicon glyphicon-pencil"></span>&nbsp;Editer
                 </label>
-                
+
                 { item.isVisible ? <StudentForm key={item.id}
                        formKey={String(item.id)}
                        initialValues={item} 
@@ -80,6 +79,7 @@ export default const Student = props => {
                        deleteStudent={deleteStudent}
                        /> : null 
                 }
+                
             </div>
         </div>
       </span>
