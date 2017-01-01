@@ -65,7 +65,7 @@ export default const Student = props => {
       <span>
         <div class="container">
             <div class="row">
-            
+
                 {item.firstName + ' ' + item.lastName}&nbsp;
                 <input type="checkbox" id={"toggle" + item.id} className="toggle" />
                 <label htmlFor={"toggle" + item.id} className='btn btn-primary pull-right margin-bottom-5' onClick={()=>toggleForm(item.id)}>
@@ -79,13 +79,17 @@ export default const Student = props => {
                        deleteStudent={deleteStudent}
                        /> : null 
                 }
-                
+
             </div>
         </div>
       </span>
   );
 }
 ```
+
+Compléter ici description
+
+## Formulaire
 
 
 
