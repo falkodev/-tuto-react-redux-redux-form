@@ -8,15 +8,13 @@ Redux est basé sur des  [reducers](https://developer.mozilla.org/fr/docs/Web/Ja
 
 Alors qu'est-ce qu'un reducer ? Pour répondre, il faut déjà parler des fonctions pures. C'est un concept de programmation fonctionnelle : ce sont des fonctions qui avec les mêmes paramètres renvoient toujours la même réponse. Ce devrait être le principe de toute fonction en fait.
 
-Parfois, des fonctions deviennent des fourre-tout, avec beaucoup de conditions, longues et peu lisibles, donc sources potentielles de bugs et difficiles à tester. Les fonctions pures sont courtes et ne font qu'une chose : renvoyer la même réponse selon un contexte donné.
+Parfois, des fonctions deviennent des fourre-tout, avec beaucoup de conditions, longues et peu lisibles, donc sources potentielles de bugs et difficiles à tester. Les fonctions pures sont courtes et ne font qu'une chose : renvoyer la même réponse selon un contexte donné. Un très bon article à ce sujet : [http://www.nicoespeon.com/fr/2015/01/fonctions-pures-javascript/](http://www.nicoespeon.com/fr/2015/01/fonctions-pures-javascript/)
 
 Un reducer devrait donc être une fonction pure, dans la théorie Redux. La librairie Immutable.js n'est pas obligatoire mais convient bien à un projet de ce genre.
 
 Il est temps d'installer les packages nécessaires :
 
 `npm i immutable react-redux redux redux-form --save`
-
-
 
 ## Sujet de l'application
 
