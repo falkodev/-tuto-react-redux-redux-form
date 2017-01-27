@@ -31,13 +31,11 @@ La ligne `form: formReducer,`provient de Redux-Form, une librairie développée 
 
 Les deux dernières lignes sont nécessaires pour que Redux fonctionne : avec plusieurs reducers, il est nécessaire de les combiner. Ensuite, quelque soit le nombre de reducers, il faut créer un store, ce qui va conserver l'état des objets au sein de l'application \(tant que le navigateur est ouvert en tout cas, à moins de gérer la persistance mais cela va au-delà de notre sujet\).
 
-
-
 ## Mise en place du store
 
-Enfin, Redux demande d'empaqueter toute l'appli dans un composant de haut niveau \(High Order Component, ou HOC - un article à retenir pour bien comprendre : [http://putaindecode.io/fr/articles/js/react/higher-order-component/](http://putaindecode.io/fr/articles/js/react/higher-order-component/)
+Enfin, Redux demande d'empaqueter toute l'appli dans un composant de haut niveau \(High Order Component, ou HOC - un article à retenir pour bien comprendre : [http://putaindecode.io/fr/articles/js/react/higher-order-component/](http://putaindecode.io/fr/articles/js/react/higher-order-component/)\)
 
-Cela se passe à la manière de ce que demandait React-Router, qui agissait en tant que wrapper sur toutes les routes de l'application. Sans React-Router, cela donnerait : 
+Cela se passe à la manière de ce que demandait React-Router, qui agissait en tant que wrapper sur toutes les routes de l'application. Sans React-Router, cela donnerait :
 
 ```js
 <Provider store={store}>
@@ -45,10 +43,10 @@ Cela se passe à la manière de ce que demandait React-Router, qui agissait en t
 </Provider>
 ```
 
-Mais avec le code existant, voici ce qu'il faut pour notre fichier : 
+Mais avec le code existant, voici ce qu'il faut pour notre fichier :
 
 ```js
-  <Provider store={store}>
+<Provider store={store}>
     <Router history={browserHistory}>
         <Route path="/" component={Layout}>
             <IndexRoute component={Home} />
@@ -107,6 +105,4 @@ ReactDom.render((
 Ca commence à faire fouillis. Pour être plus propre, on pourrait mettre la déclaration des reducers dans un sous-fichier, et même gérer les routes ailleurs. Mais pour ce tutoriel, on va rester avec cette structure de fichiers simple.
 
 La base de Redux est en place : des reducers \(contenant des fonctions pures modifiant l'état de l'application\) sont déclarés pour être stockés dans le store. Ce store est ensuite utilisé dans un HOC, le provider, qui wrappe tout ce qu'il se passe dans l'application. Toute l'application ? Non, un élément irréductible résiste encore et toujours à Redux, c'est l'état des routes. Mais ce n'est pas grave, on pourrait mettre le package React-Router-Redux si on le voulait vraiment, Mais ce ne sera pas le cas ici.
-
-
 
