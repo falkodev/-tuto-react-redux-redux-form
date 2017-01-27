@@ -87,7 +87,11 @@ export default const Student = props => {
 }
 ```
 
-Compléter ici description
+Pour chaque élève, plusieurs propriétés sont passées au composant : item, toggleForm, updateForm, deleteStudent.
+
+item contient les informations de l'élève : nom, prénom, id, ...
+
+toggleForm, updateForm et deleteStudent sont des fonctions qui seront utilisées en fonction d'évènements.
 
 ## Formulaire
 
