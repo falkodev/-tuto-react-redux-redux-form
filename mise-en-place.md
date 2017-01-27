@@ -104,5 +104,5 @@ ReactDom.render((
 
 Ca commence à faire fouillis. Pour être plus propre, on pourrait mettre la déclaration des reducers dans un sous-fichier, et même gérer les routes ailleurs. Mais pour ce tutoriel, on va rester avec cette structure de fichiers simple.
 
-La base de Redux est en place : des reducers \(contenant des fonctions pures modifiant l'état de l'application\) sont déclarés pour être stockés dans le store. Ce store est ensuite utilisé dans un HOC, le provider, qui wrappe tout ce qu'il se passe dans l'application. Toute l'application ? Non, un élément irréductible résiste encore et toujours à Redux, c'est l'état des routes. Mais ce n'est pas grave, on pourrait mettre le package React-Router-Redux si on le voulait vraiment, Mais ce ne sera pas le cas ici.
+La base de Redux est en place : des reducers \(contenant des fonctions pures modifiant l'état de l'application\) sont déclarés pour être stockés dans le store. Ce store est ensuite utilisé dans un HOC, le provider, qui wrappe tout ce qu'il se passe dans l'application. Toute l'application ? Non, un élément irréductible résiste encore et toujours à Redux, c'est l'état des routes. Mais ce n'est pas grave, on pourrait mettre le package React-Router-Redux si on le voulait vraiment, permettant à Redux d'enregistrer les routes. Mais ce ne sera pas le cas ici pour simplifier l'exemple.
 
