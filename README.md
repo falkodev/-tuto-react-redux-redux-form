@@ -1,4 +1,4 @@
-# Tutoriel React Redux Redux-Form
+# Tutoriel React / Redux / Redux-Form
 
 Ce tutoriel prend la suite du [précédent](https://falkodev.gitbooks.io/tuto-symfony-react-webpack-babel/content/), qui présentait de manière basique ce qu'était une application React.
 
