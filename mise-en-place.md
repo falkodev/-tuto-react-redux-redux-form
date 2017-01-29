@@ -71,13 +71,13 @@ import { createStore, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import reducer from './reducer';
 import { Provider } from 'react-redux';
-import { StudentsList } from './containers';
 
 import Layout from './Layout';
 import Home from './components/Home';
 import Page1 from './components/Page1';
 import Page2 from './components/Page2';
 import NoMatch from './components/NoMatch';
+import StudentsContainer from './container';
 
 const reducers = {
   reducer,
@@ -94,7 +94,7 @@ ReactDom.render((
             <Route path="/home" component={Home} />
             <Route path="/page1" component={Page1} />
             <Route path="/page2" component={Page2} />
-            <Route path="/students" component={StudentsList} />
+            <Route path="/students" component={StudentsContainer} />
             <Route path="*" component={NoMatch} />
         </Route>
     </Router>
