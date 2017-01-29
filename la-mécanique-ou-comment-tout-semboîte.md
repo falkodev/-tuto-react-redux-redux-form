@@ -1,0 +1,120 @@
+# La mécanique \(ou comment tout s'emboîte\)
+
+Tous ces fichiers et ces ajouts peuvent paraître confus. Pour résumer, nous avons enrichi le fichier d'entrée de l'application \(app.js\) pour qu'il prenne en compte Redux. Ce qu'il faut retenir c'est que le \(ou les\) reducer\(s\) est ce qui contiendra les fonctions qui manipuleront l'état de l'application. C'est donc le coeur de la mécanique de Redux.
+
+Ces reducers sont combinés dans un store, qui est lui-même embarqué dans un HOC \(High Order Component\), c'est-à-dire un composant qui wrappe l'ensemble de l'application pour en gérer l'état.
+
+Passons donc à ce fameux reducer. Pour simplifier notre exemple, nous allons créer des fixtures, qui seront gérées en mémoire : chaque rechargement de page ou réouverture du navigateur réinitilisera l'état de l'application. Pour rappel, nous gérons une classe d'élèves. Créons des élèves factices dans fixtures.js au même niveau que app.js : 
+
+
+
+```
+import Immutable, { List, Map } from 'immutable';
+
+export const students = List([
+  Map({ id: 1465171631163, firstName: 'Jean', lastName: 'Borotra', level: '6e', average: '10', isVisible: false, isUpdated: false }),
+  Map({ id: 1465171646328, firstName: 'Jacques', lastName: 'Brugnon', level: '5e', average: '19', isVisible: false, isUpdated: false }),
+  Map({ id: 1465171723584, firstName: 'Henri', lastName: 'Cochet', level: '3e', average: '14', isVisible: false, isUpdated: false }),
+  Map({ id: 1465171659936, firstName: 'René', lastName: 'Lacoste', level: '6e', average: '8', isVisible: false, isUpdated: false }),
+  Map({ id: 1465171707368, firstName: 'Suzanne', lastName: 'Lenglen', level: '6e', average: '15', isVisible: false, isUpdated: false }),
+]);
+```
+
+On utilise ici la bibliothèque Immutable.js pour respecter la philosophie Redux qui ne modifie pas un enregistrement à chaque fois mais le recrée, permettant des comparaisons très rapide entre objets puisqu'elle se fera sur la référence de l'objet plutôt que sur l'objet lui-même. Cela devient intéressant sur de gros objets avec plusieurs niveaux d'imbrication. Ce n'est donc pas obligatoire pour notre simple application. Mais c'est un concept important à connaître.
+
+Chaque élève a donc un identifiant, un prénom, un nom, un niveau de classe \(6e, 5e...\), une moyenne, une propriété permettant de savoir s'il est visible ou non et une dernière propriété pour savoir s'il a été mis à jour ou non. Ce sont ces informations qui seront gérées dans le formulaire.
+
+Le principe du reducer est de réagir à des actions pour produire un nouvel état dans l'application. Ce seront donc des fonctions pures, sans effet de bord \(side effect, par exemple des appels à une API externe\) et qui vont aussi utiliser l'immutabilité pour recréer un état plutôt que de modifier celui existant. D'où l'intérêt d'utiliser Immutable.js \(même si non obligatoire comme précisé plus haut\).
+
+Voici notre reducer \(à placer dans un fichier reducer.js au même niveau que app.js\) :
+
+```
+import Immutable, { List, Map } from 'immutable';
+import { students } from './fixtures';
+
+export default function(state = students, action) {
+  switch(action.type) {
+      case 'TOGGLE_FORM':
+          return state.map(item => {  
+            if(item.get('id') === action.id) {
+              return item.set('isVisible', !item.get('isVisible')).set('isUpdated', false);
+            } else {
+              return item;
+            }
+          });
+      case 'UPDATE_FORM':
+          return state.map(item => {
+            if(item.get('id') == action.id) {
+              return Immutable.fromJS(action.item).set('isUpdated', true);
+            } else {
+              return item;
+            }
+          }); 
+    case 'ADD_STUDENT': 
+          action.item.id = action.id;
+          return state.push(Map(action.item).set('isVisible', false).set('isUpdated', false));
+    case 'DELETE_STUDENT': 
+          return state.filter(function(item) {
+              return item.get("id") != action.id;
+          });
+    default:
+      return state;
+  }
+}
+```
+
+Ici, nous gérons 5 cas : 
+
+* TOGGLE\_FORM : l'affichage ou le masquage du détail d'un élève
+* UPATE\_FORM : la mise à jour des informations d'un élève après soumission du formulaire Redux-Form. Remarquez l'utilisation d'Immutable pour modifier l'objet contenant l'élève : Immutable va se charger lui-même de recréer un objet.
+* ADD\_STUDENT : la création d'un nouvel élève après soumission du formulaire Redux-Form \(le même que la modification\).
+* DELETE\_STUDENT : la suppression d'un élève par création d'un objet contenant les élèves sauf celui à supprimer. Cela respecte le principe d'immutabilité.
+* Défaut : si aucune action ne correspond à la demande, le renvoi de l'état actuel \(pour affichage du tableau global des élèves en fait\).
+
+Ce reducer, simple en soi, reçoit donc l'état actuel des élèves \(qui est les fixtures précédemment définies au démarrage de l'application\) et une action.
+
+Comment cette action est-elle déclenchée ? C'est ce que gère un fichier qu'on appelle "action creators", créateur d'actions. Créons un fichier actions.js au même niveau que app.js : 
+
+```
+// succinct hack for generating passable unique ids
+const uid = () => new Date().valueOf();
+
+export function addStudent(item) {
+  return {
+    type: 'ADD_STUDENT',
+    item: item,
+    id: uid()
+  };
+}
+    
+export function deleteStudent(id) {
+  return {
+    type: 'DELETE_STUDENT',
+    id: id
+  };
+}
+    
+export function toggleForm(id) {
+  return {
+    type: 'TOGGLE_FORM',
+    id: id
+  };
+}
+    
+export function updateForm(item) {
+  return {
+    type: 'UPDATE_FORM',
+    item: item,
+    id: item.id,
+  };
+}
+```
+
+On retrouve les 4 cas \(sauf le défaut donc\) vus dans le reducer. Rien de bien complexe ici : pour chaque fonction, on crée un objet qui contient un type \(obligatoire\), et une charge utile \(payload en english\) qui sera un ou plusieurs paramètres à appliquer un objet \(un élève par exemple\). Ce fichier est presque trop simple. Pourquoi créer un fichier qui ne fait que répartir des actions au reducer ? On pourrait directement appeler les fonctions du reducer plutôt que de passer par ce fichier intermédiaire...
+
+Dans la logique Redux, ce fichier d'actions est très important, parce qu'il constitue la seule source de vérité \(single source of truth\) pour le store, c'est-à-dire que le store ne connait que les actions à appeler, pas comment elles doivent être prises en charge. Cela permet un découplage des responsablilités. Un autre avantage est de déléguer à ce fichier créateur d'actions des actions asynchrones \(le côté "impur", appelé aussi side effect\). Ainsi, le reducer ne conserve que des fonctions pures, limitant les effets de bord, et facilitant les tests automatiques \(puisque qu'une fonction pure ne fait qu'une et une seule chose, alors qu'un action creator peut avoir à faire tout un tas d'opérations de validation et de chargement de données asynchrones en amont du reducer\).
+
+Pour notre application, le créateur d'actions sera très léger, mais cela ne signifie pas qu'on peut le fusionner avec le reducer pour gagner quelques lignes de code.
+
+
+

@@ -5,4 +5,5 @@
 * [Redux](redux.md)
 * [Mise en place](mise-en-place.md)
 * [Composants](composants.md)
+* [La mécanique \(ou comment tout s'emboîte\)](la-mécanique-ou-comment-tout-semboîte.md)
 
