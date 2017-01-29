@@ -8,7 +8,7 @@ Ces reducers sont combinés dans un store, qui est lui-même embarqué dans un H
 
 Passons donc à ce fameux reducer. Pour simplifier notre exemple, nous allons créer des fixtures, qui seront gérées en mémoire : chaque rechargement de page ou réouverture du navigateur réinitilisera l'état de l'application. Pour rappel, nous gérons une classe d'élèves. Créons des élèves factices dans fixtures.js au même niveau que app.js :
 
-```
+```js
 import Immutable, { List, Map } from 'immutable';
 
 export const students = List([
@@ -28,7 +28,7 @@ Le principe du reducer est de réagir à des actions pour produire un nouvel ét
 
 Voici notre reducer \(à placer dans un fichier reducer.js au même niveau que app.js\) :
 
-```
+```js
 import Immutable, { List, Map } from 'immutable';
 import { students } from './fixtures';
 
@@ -77,7 +77,7 @@ Ce reducer, simple en soi, reçoit donc l'état actuel des élèves \(qui est le
 
 Créons un fichier actions.js au même niveau que app.js :
 
-```
+```js
 // succinct hack for generating passable unique ids
 const uid = () => new Date().valueOf();
 
@@ -126,7 +126,7 @@ Le container est le dernier aspect pour lier les composants et Redux. Le composa
 
 Pour cela, on peut ajouter en bas du fichier StudentsList.js une partie "container" issue de Redux. Dans un souci de lisibilité, on peut aussi extraire la partie container pour la mettre dans un fichier à part. Créons le fichier container.js au même niveau que app.js : 
 
-```
+```js
 import { connect } from 'react-redux';
 import StudentsList from './components/StudentsList';
 import { toggleForm, updateForm, addStudent, deleteStudent } from './actions';
@@ -150,7 +150,7 @@ export default StudentsContainer;
 
 Ce fichier pourrait ne pas exister. Dans ce cas, StudentsList aurait intégré ceci avant sa dernière ligne : 
 
-```
+```js
 StudentsList = connect(
   function mapStateToProps(state) {
     return { students: state };
