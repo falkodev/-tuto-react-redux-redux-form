@@ -129,7 +129,7 @@ const validate = values => {
   return errors;
 }
 
-export let StudentForm = props => {
+let StudentForm = props => {
 
     const save = (data) => {
         saveForm(data);
