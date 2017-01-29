@@ -188,25 +188,21 @@ StudentForm = reduxForm({
 export default StudentForm;
 ```
 
-Un peu plus long ce fichier, mais c'est parce qu'on utilise Redux-Form, qui est un moyen de gérer l'état d'un formulaire avec Redux. Il impose une certaine structure notamment une fonction de validation, qui contient les règles pour chaque champ à valider : 
-
-
+Un peu plus long ce fichier, mais c'est parce qu'on utilise Redux-Form, qui est un moyen de gérer l'état d'un formulaire avec Redux. Il impose une certaine structure notamment une fonction de validation, qui contient les règles pour chaque champ à valider :
 
 ```js
 const validate = values => {
   const errors = {};
 
-...
+  ...
 
   return errors;
 }
 ```
 
-
-
 Puis le composant en lui-même, qui contient les champs et des fonctions natives de Redux-Form : handleSubmit et resetForm \(voir [la documentation](http://redux-form.com/5.1.0/#/api/props) pour en savoir plus\).
 
-Enfin, le rattachement du composant à Redux-Form se fait de cette manière : 
+Enfin, le rattachement du composant à Redux-Form se fait de cette manière :
 
 ```js
 StudentForm = reduxForm({
@@ -218,7 +214,5 @@ StudentForm = reduxForm({
 
 Ceci va permettre de connecter le formulaire à Redux pour gérer son état \(validation, soumission, réinitialisation\).
 
-Avec ce code, tout fonctionne. Très bien, mais comment cela fonctionne-t- 
-
-
+Une fois les composants définis, il manque la mécanique de Redux : le reducer, le container et les actions. Voyons tout ceci dans la dernière étape à examiner.
 
