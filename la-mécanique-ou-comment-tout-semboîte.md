@@ -6,7 +6,7 @@ Ces reducers sont combinés dans un store, qui est lui-même embarqué dans un H
 
 ## Reducer
 
-Passons donc à ce fameux reducer. Pour simplifier notre exemple, nous allons créer des fixtures, qui seront gérées en mémoire : chaque rechargement de page ou réouverture du navigateur réinitilisera l'état de l'application. Pour rappel, nous gérons une classe d'élèves. Créons des élèves factices dans fixtures.js au même niveau que app.js :
+Passons donc à ce fameux reducer. Pour simplifier notre exemple, nous allons créer des fixtures, qui seront gérées en mémoire : chaque rechargement de page ou réouverture du navigateur réinitilisera l'état de l'application. Pour rappel, nous gérons une classe d'élèves. Créons des élèves factices dans fixtures.js au même niveau que app.js[^1] :
 
 ```js
 import Immutable, { List, Map } from 'immutable';
@@ -20,7 +20,7 @@ export const students = List([
 ]);
 ```
 
-On utilise ici la bibliothèque Immutable.js pour respecter la philosophie Redux qui ne modifie pas un enregistrement à chaque fois mais le recrée, permettant des comparaisons très rapide entre objets puisqu'elle se fera sur la référence de l'objet plutôt que sur l'objet lui-même. Cela devient intéressant sur de gros objets avec plusieurs niveaux d'imbrication. Ce n'est donc pas obligatoire pour notre simple application. Mais c'est un concept important à connaître.
+On utilise ici la bibliothèque Immutable.js pour respecter la philosophie Redux qui ne modifie pas un enregistrement à chaque fois mais le recrée, permettant des comparaisons très rapides entre objets puisqu'elle se fera sur la référence de l'objet plutôt que sur l'objet lui-même. Cela devient intéressant sur de gros objets avec plusieurs niveaux d'imbrication. Ce n'est donc pas obligatoire pour notre simple application. Mais c'est un concept important à connaître.
 
 Chaque élève a donc un identifiant, un prénom, un nom, un niveau de classe \(6e, 5e...\), une moyenne, une propriété permettant de savoir s'il est visible ou non et une dernière propriété pour savoir s'il a été mis à jour ou non. Ce sont ces informations qui seront gérées dans le formulaire.
 
@@ -44,7 +44,7 @@ export default function(state = students, action) {
           });
       case 'UPDATE_FORM':
           return state.map(item => {
-            if(item.get('id') == action.id) {
+            if(item.get('id') === action.id) {
               return Immutable.fromJS(action.item).set('isUpdated', true);
             } else {
               return item;
@@ -71,7 +71,7 @@ Ici, nous gérons 5 cas :
 * DELETE\_STUDENT : la suppression d'un élève par création d'un objet contenant les élèves sauf celui à supprimer. Cela respecte le principe d'immutabilité.
 * Défaut : si aucune action ne correspond à la demande, le renvoi de l'état actuel \(pour affichage du tableau global des élèves en fait\).
 
-Ce reducer, simple en soi, reçoit donc l'état actuel des élèves \(qui est les fixtures précédemment définies au démarrage de l'application\) et une action. Comment cette action est-elle déclenchée ? C'est ce que gère un fichier qu'on appelle "action creators", créateur d'actions. 
+Ce reducer, simple en soi, reçoit donc l'état actuel des élèves \(qui est les fixtures précédemment définies au démarrage de l'application\) et une action. Comment cette action est-elle déclenchée ? C'est ce que gère un fichier qu'on appelle "action creators", créateur d'actions.
 
 ## Actions creator
 
@@ -118,13 +118,11 @@ Dans la logique Redux, ce fichier d'actions est très important, parce qu'il con
 
 Pour notre application, le créateur d'actions sera très léger, mais cela ne signifie pas qu'on peut le fusionner avec le reducer pour gagner quelques lignes de code.
 
-
-
 ## Container
 
 Le container est le dernier aspect pour lier les composants et Redux. Le composant StudentsList étant le parent des autres composants de gestion des élèves \(Student et StudentForm\), c'est lui qui sera lié à Redux. Dans ce cas, Student est un composant de présentation, c'est-à-dire qu'il ne fera qu'afficher des informations transmises par un conteneur. Ce conteneur, sous-entendu conteneur de composant de présentation, sera StudentsList, le seul à être lié directement à Redux.
 
-Pour cela, on peut ajouter en bas du fichier StudentsList.js une partie "container" issue de Redux. Dans un souci de lisibilité, on peut aussi extraire la partie container pour la mettre dans un fichier à part. Créons le fichier container.js au même niveau que app.js : 
+Pour cela, on peut ajouter en bas du fichier StudentsList.js une partie "container" issue de Redux. Dans un souci de lisibilité, on peut aussi extraire la partie container pour la mettre dans un fichier à part. Créons le fichier container.js au même niveau que app.js :
 
 ```js
 import { connect } from 'react-redux';
@@ -148,7 +146,7 @@ const StudentsContainer = connect(
 export default StudentsContainer;
 ```
 
-Ce fichier pourrait ne pas exister. Dans ce cas, StudentsList aurait intégré ceci avant sa dernière ligne : 
+Ce fichier pourrait ne pas exister. Dans ce cas, StudentsList aurait intégré ceci avant sa dernière ligne :
 
 ```js
 StudentsList = connect(
@@ -171,9 +169,11 @@ et app.js aurait importé StudentsList plutôt que StudentContainer. Cependant, 
 Que fait ce conteneur ? Il possède deux fonctions Redux :
 
 * mapStateToProps : il prend l'état \(ou une partie de l'état en fonction du besoin\) de l'application \(ici l'objet contenant les élèves\) et le transmet à StudentsList sous forme de propriété. C'est pour cela que dans StudentsList, on reçoit students dans les propriétés : `const { students, ... } = props;`
-* mapDispatchToProps : cette fonction passe des fonctions sous forme de propriétés à StudentsList. C'est la suite des propriétés envoyées à StudentsList : `const { ..., toggleForm, updateForm, addStudent, deleteStudent } = props; `Elle prend en paramère la fonction dispatch de Redux, chargée d'informer le store qu'un changement d'état se produit et qu'il faut donc appeler l'action adéquate \(contenue dans le créateur d'actions - actions.js\). La fonction mapDispatchToProps se charge donc de faire correspondre chaque propriété passée à StudentsLists à la fonction issue de action.js \(qui lui même appelera la bonne fonction dans le reducer\). Par exemple, au clic à la création d'un élève, la propriété addStudent contient une référence à la fonction addStudent de action.js. Ce lien est fait ici, dans mapDispatchToProps. Ainsi, à la soumission du formulaire de création d'un élève, la propriété addStudent de StudentsList est appelée. C'est en fait la fonction addStudent de actions.js qui sera déclenchée \(et in fine, le cas "ADD\_STUDENT" du reducer, permettant le changement réel de l'état de l'appliction, permettant d'augmenter l'objet gérant les élèves d'un enregistrement\).
-  
+* mapDispatchToProps : cette fonction passe des fonctions sous forme de propriétés à StudentsList. C'est la suite des propriétés envoyées à StudentsList : `const { ..., toggleForm, updateForm, addStudent, deleteStudent } = props;`Elle prend en paramère la fonction dispatch de Redux, chargée d'informer le store qu'un changement d'état se produit et qu'il faut donc appeler l'action adéquate \(contenue dans le créateur d'actions - actions.js\). La fonction mapDispatchToProps se charge donc de faire correspondre chaque propriété passée à StudentsLists à la fonction issue de action.js \(qui lui même appelera la bonne fonction dans le reducer\). Par exemple, au clic à la création d'un élève, la propriété addStudent contient une référence à la fonction addStudent de action.js. Ce lien est fait ici, dans mapDispatchToProps. Ainsi, à la soumission du formulaire de création d'un élève, la propriété addStudent de StudentsList est appelée. C'est en fait la fonction addStudent de actions.js qui sera déclenchée \(et in fine, le cas "ADD\_STUDENT" du reducer, permettant le changement réel de l'état de l'appliction, permettant d'augmenter l'objet gérant les élèves d'un enregistrement\).
+
   Ouf ! Sacré cheminement, mais il le fallait pour faire le tour : les props envoyées à StudentsList permettent la connexion à Redux. A chaque changement d'état à appliquer, une fonction embarquée dans une propriété est déclenchée depuis un composant \(Student par exemple\). Le lien entre cette fonction à appeler et cette propriété est faite dans le container. Le container permet donc le dispatch vers l'action adéquate, action présente dans le fichier actions.js. Cette action contient un type \(qui doit être unique\). Redux appelle les reducers attachés au store. Le reducer contenant le même type que l'action appelée va exécuter sa fonction pure correspondante. Le changement d'état va déclencher un affichage dans la vue. C'est le fameux one-way data binding de Redux.
 
 
+
+[^1]: C'était Rolland Garros lorsque je réfléchissais à ce tutoriel, j'ai donc effectivement pris les noms des 4 mousquetaires et ai ajouté le nom de la célèbre tenniswoman de l'époque :\)
 
