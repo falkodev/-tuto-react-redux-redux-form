@@ -43,7 +43,7 @@ Cela se passe à la manière de ce que demandait React-Router, qui agissait en t
 </Provider>
 ```
 
-Mais avec le code existant, voici ce qu'il faut pour notre fichier :
+Mais avec le code existant, voici ce qu'il faut pour notre fichier \(au passage, j'ai ajouté la route vers la page de gestion de classe numérique que nous allons construire dans ce tuto\) :
 
 ```js
 <Provider store={store}>
