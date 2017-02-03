@@ -1,4 +1,4 @@
-# Pour aller plus loin
+# Pour aller plus loin : les middlewares
 
 Cet exemple, très basique en termes de fonctionnalités, bien que complexe dans l'architecture, doit pouvoir être complété pour de vraies applications. Notamment, le fait de contacter une API pour recevoir et envoyer de la donnée.
 
@@ -49,7 +49,9 @@ export function toggleForm(id) {
   }
 ```
 
-On utilise ici la fonction dispatch de Redux pour enchainer les événements. Le premier étant l'appel à l'API. Une fois récupérées les données correspondants à un identifiant d'élève, on peut dispatcher l'événement TOGGLE\_FORM auquel Redux saura répondre à travers le reducer \(il faudra aussi penser à modifier le reducer pour réagir à la nouvelle donnée reçue\).
+[Fetch](https://developer.mozilla.org/fr/docs/Web/API/Fetch_API/Using_Fetch) est le futur remplaçant de XHR pour des requêtes asynchrones. Comme on est en ES6, on peut l'utiliser \(avec un polyfill dans Webpack pour les anciens navigateurs\). L'avantage de cette solution est qu'il renvoie une promesse. On peut donc chainer facilement les actions à entreprendre avec des then.
+
+On utilise ici la fonction dispatch de Redux pour gérer les événements, le premier étant l'appel à l'API. Une fois récupérées les données correspondants à un identifiant d'élève, on peut dispatcher l'événement TOGGLE\_FORM auquel Redux saura répondre à travers le reducer \(il faudra aussi penser à modifier le reducer pour réagir à la nouvelle donnée reçue\).
 
 Avec cette structure, désormais, le store embarque un \(ou plusieurs\) middleware pour permettre aux créateurs d'actions d'intégrer des fonctions impures \(side effect tel qu'un appel à une ressource externe à l'application\). Le reducer reste pur quant à lui.
 

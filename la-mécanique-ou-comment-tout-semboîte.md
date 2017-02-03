@@ -204,7 +204,7 @@ const Header = () => {
 export default Header;
 ```
 
-J'ai aussi ajouté quelques éléments css pour ajouter un peu de style, notamment une animation pour l'apparition des informations d'un élève \(.toggle ~ form\). Comme quoi, pas besoin de JS parfois ;\)
+J'ai aussi ajouté quelques éléments css, notamment une animation pour l'apparition des informations d'un élève \(.toggle ~ form\). Comme quoi, pas besoin de JS parfois ;\)
 
 Voici le code du fichier app/Resources/scss/style.scss :
 
