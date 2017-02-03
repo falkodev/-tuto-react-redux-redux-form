@@ -173,7 +173,97 @@ Que fait ce conteneur ? Il possède deux fonctions Redux :
 
   Ouf ! Sacré cheminement, mais il le fallait pour faire le tour : les props envoyées à StudentsList permettent la connexion à Redux. A chaque changement d'état à appliquer, une fonction embarquée dans une propriété est déclenchée depuis un composant \(Student par exemple\). Le lien entre cette fonction à appeler et cette propriété est faite dans le container. Le container permet donc le dispatch vers l'action adéquate, action présente dans le fichier actions.js. Cette action contient un type \(qui doit être unique\). Redux appelle les reducers attachés au store. Le reducer contenant le même type que l'action appelée va exécuter sa fonction pure correspondante. Le changement d'état va déclencher un affichage dans la vue. C'est le fameux one-way data binding de Redux.
 
+Pour faire plus propre, on peut ajouter un lien vers la gestion des élèves dans le composant Header \(layout/Header.js\):
 
+```js
+import React from 'react';
+import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
-[^1]: C'était Rolland Garros lorsque je réfléchissais à ce tutoriel, j'ai donc effectivement pris les noms des 4 mousquetaires et ai ajouté le nom de la célèbre tenniswoman de l'époque :\)
+const Header = () => {
+    return (
+        <Navbar>
+            <Navbar.Header>
+                <Navbar.Brand>
+                    <a href="/">Site de tutoriel</a>
+                </Navbar.Brand>
+                <Navbar.Toggle />
+            </Navbar.Header>
+            <Navbar.Collapse>
+                <Nav>
+                    <LinkContainer to="home"><NavItem>Accueil</NavItem></LinkContainer>
+                    <LinkContainer to="page1"><NavItem>Menu 1</NavItem></LinkContainer>
+                    <LinkContainer to="page2"><NavItem>Menu 2</NavItem></LinkContainer>
+                    <LinkContainer to="students"><NavItem>Elèves</NavItem></LinkContainer>
+                </Nav>
+            </Navbar.Collapse>
+        </Navbar>
+    );
+};
+
+export default Header;
+```
+
+J'ai aussi ajouté quelques éléments css pour ajouter un peu de style, notamment une animation pour l'apparition des informations d'un élève \(.toggle ~ form\). Comme quoi, pas besoin de JS parfois ;\)
+
+Voici le code du fichier app/Resources/scss/style.scss :
+
+```css
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+html, body {
+  margin: 10px;
+  font-size: 20px;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.btn {
+    margin-left: 5px;
+}
+
+.row {
+    margin-top: 5px;
+}
+
+.toggle {
+    display: none;
+}
+
+.toggle ~ form {
+    position: relative;
+    left: 300px;
+    transition: left 500ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+}
+
+.toggle:checked ~ form {
+    left: 0;
+}
+
+.margin-bottom-5 {
+    margin-bottom: 5px;
+}
+
+.alert{
+    padding: 5px;
+    margin: 10px 0;
+}
+
+.list-group-item {
+    background-color: #fafafa;
+}
+.list-group-item:hover {
+    background-color: #fff;
+}
+```
+
+Lorsque l'on navigue sur l'url localhost:8000/students, on doit voir apparaître ceci :
+
+![](/assets/Capture d’écran 2017-02-03 à 23.51.21.png)
+
+On peut modifier, supprimer ou ajouter un élève désormais. Il y a même une validation basique sur le nombre de caractères à entrer pour les noms, ou la vérification qu'une note est bien numérique.
 
