@@ -14,7 +14,9 @@ Un reducer devrait donc être une fonction pure, dans la théorie Redux. La libr
 
 Il est temps d'installer les packages nécessaires :
 
-`npm i immutable react-redux redux redux-form --save`
+`npm i immutable react-redux@4.4.5 redux@3.5.2 redux-form@5.2.5 --save`
+
+Pour ceux qui démarrerait un projet from scratch, il suffit de prendre le fichier package.json des sources finales et de faire un `npm install`
 
 ## Sujet de l'application
 
