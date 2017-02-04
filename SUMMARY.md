@@ -7,5 +7,5 @@
 * [Composants](composants.md)
 * [La mécanique \(ou comment tout s'emboîte\)](la-mécanique-ou-comment-tout-semboîte.md)
 * [Pour aller plus loin](pour-aller-plus-loin.md)
-* [Dernier élément](dernier-élément.md)
+* [Conclusion](dernier-élément.md)
 

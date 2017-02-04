@@ -1,10 +1,8 @@
-Dernier élément
+# Conclusion
 
-style.scss
+Présenter la richesse et la puissance des concepts de Redux n'est pas chose aisée. Si les grands principes ont été abordés, il y a d'autres aspect à explorer, tel que le retour en arrière dans l'historique de l'état de l'application \(grâce au Time Travel\). Pour cela, la [doc officielle](http://redux.js.org/) est une mine d'or.
 
-copies d'écran
+Redux est conçu pour gérer de grosses applications et d'[importantes entreprises](http://redux.js.org/docs/faq/Miscellaneous.html#miscellaneous-real-projects) l'utilisent en production., comme Mozilla ou Twitter.
 
-ajouter lien vers /students dans la barre de menu
-
-ajouter dans tuto précédent "npm i react-router-bootstrap --save" +  LinkContainer sur les liens du menu + vérifier que Page2 contient Contenu2 \(et non pas Contenu1\)
+Les sources finales sont disponibles à cette adresse : [https://github.com/falkodev/repo-react-redux-redux-form](https://github.com/falkodev/repo-react-redux-redux-form)
 
