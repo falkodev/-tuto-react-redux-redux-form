@@ -267,3 +267,5 @@ Lorsque l'on navigue sur l'url localhost:8000/students, on doit voir apparaître
 
 On peut modifier, supprimer ou ajouter un élève désormais. Il y a même une validation basique sur le nombre de caractères à entrer pour les noms, ou la vérification qu'une note est bien numérique.
 
+[^1]: C'était Rolland Garros, je me suis donc inspiré des 4 mousquetaires du tennis français et d'une célèbre tenniswoman de la même époque.
+
