@@ -24,5 +24,5 @@ La plupart des tutoriels présentant Redux le font dans le cadre d'une appli de 
 
 Le sujet de notre appli sera différent, ce sera la gestion d'une classe numérique. Notre application va permettre de gérer, très basiquement, une liste d'étudiants.
 
-Commençons par mettre en place Redux dans notre fichier app.js.
+Le prochain billet détaillera la mise en place de Redux dans notre fichier app.js.
 
