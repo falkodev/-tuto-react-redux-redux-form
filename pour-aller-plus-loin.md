@@ -1,4 +1,4 @@
-# Pour aller plus loin : les middlewares
+# Les middlewares
 
 Cet exemple, très basique en termes de fonctionnalités, bien que complexe dans l'architecture, doit pouvoir être complété pour de vraies applications. Notamment, le fait de contacter une API pour recevoir et envoyer de la donnée.
 
